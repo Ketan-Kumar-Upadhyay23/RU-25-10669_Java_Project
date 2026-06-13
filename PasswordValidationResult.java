@@ -1,53 +1,37 @@
-import java.util.ArrayList;
-import java.util.List;
+public class PasswordValidator {
 
-public class PasswordValidationResult {
-    private boolean valid;
-    private String message;
-    private List<String> errors;
-
-    public PasswordValidationResult() {
-        this.errors = new ArrayList<>();
-        this.message = "";
-    }
-
-    public boolean isValid() {
-        return valid;
-    }
-
-    public void setValid(boolean valid) {
-        this.valid = valid;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public List<String> getErrors() {
-        return errors;
-    }
-
-    public void addError(String error) {
-        this.errors.add(error);
-    }
-
-    public void displayResults() {
-        System.out.println("\n=== Password Validation Results ===");
-        System.out.println("Valid: " + valid);
-        
-        if (!message.isEmpty()) {
-            System.out.println("Message: " + message);
+    public static boolean isValidPassword(String password) {
+        if (password == null || password.length() < 8) {
+            return false;
         }
-        
-        if (!errors.isEmpty()) {
-            System.out.println("Errors:");
-            for (String error : errors) {
-                System.out.println("  - " + error);
+
+        boolean hasUppercase = false;
+        boolean hasLowercase = false;
+        boolean hasDigit = false;
+        boolean hasSpecialChar = false;
+
+        for (char ch : password.toCharArray()) {
+            if (Character.isUpperCase(ch)) {
+                hasUppercase = true;
+            } else if (Character.isLowerCase(ch)) {
+                hasLowercase = true;
+            } else if (Character.isDigit(ch)) {
+                hasDigit = true;
+            } else {
+                hasSpecialChar = true;
             }
+        }
+
+        return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
+    }
+
+    public static void main(String[] args) {
+        String password = "MyPass123!";
+
+        if (isValidPassword(password)) {
+            System.out.println("Password is valid.");
+        } else {
+            System.out.println("Password is invalid.");
         }
     }
 }
